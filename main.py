@@ -152,7 +152,7 @@ def main():
         elif userInput == "3":
             overhoren()
 
-        elif userInput == "4" or userInput.upper() == "QQ":
+        elif userInput == str("4") or userInput.upper() == "QQ":
             sluitProgramma()
 
         else:
