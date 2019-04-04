@@ -1,18 +1,17 @@
-import os
-import time
-import random
+#################
+#Import modules #
+import os       #
+import time     #
+import random   #
+#################
 
-program = True
-ex = ".hakan"
-ex2 = ".jurjen"
-lijsten = "lijsten" + ex2
+ex = ".txt"
+lijsten = "lijsten" + ex
 dicct = {}
 with open(lijsten, "w") as file:
     pass
 goedAntwoorden = ["Goedzo!", "Dubieus pronkstuk, maar vooruit.", "YOOOO LETS GO!", "Correct, mijnheer.", ":)", "Nice", "Epische zet, mijn gepigmenteerde medemens.", "Correct & cool.", "Ga zo door, makker!", "Top hoor, kameraad!", "G O E D", "Lekker sahbe", "Hard bro"]
 foutAntwoorden = ["F", "Incorrect, mijnheer.", "Nop", "Nope", "Fout", "Volgende keer beter", "Potjandriedubbeltjes, je antwoord klopt niet!", "NOOOOOB!!!", "XD je bent echt slecht", "A dombo", "Ding-dang-dong, your answer is wrong!", "GAME OVER", "FOUUUTTTTT"]
-goedCounter = 0
-foutCounter = 0
 
 def clear():
     os.system("cls" if os.name == "nt" else "clear")
@@ -24,11 +23,9 @@ def kiesLijst():
     print("4 = sluit programma")
     print("\nWil je terug gaan, gebruik dan altijd QQ.\n")
 
-def nieuweLijst():
+def nieuweLijst(newListInput, lijstNaam):
     time.sleep(0.5)
-    global newListInput
     newListInput = input("\nGeef je nieuwe lijst een naam: ")
-    global lijstNaam
     lijstNaam = newListInput + ex
     with open(lijsten, "a+") as file:
         file.write(lijstNaam + "\n")
@@ -55,9 +52,7 @@ def nieuweLijst():
         print(lijsten)
         time.sleep(2)
 
-def verwijderLijst():
-    global verwijderInput
-    verwijderInput = ""
+def verwijderLijst(verwijderInput):
     time.sleep(0.5)
     with open(lijsten, "r+") as file:
         print("\nWelke lijst wil je verwijderen?")
@@ -77,8 +72,7 @@ def verwijderLijst():
     time.sleep(0.5)
     clear()
 
-def verwijderLijn(self):
-    global verwijderInput
+def verwijderLijn(verwijderInput):
     f = open(lijsten, "r")
     lines = f.readlines()
     f.close()
@@ -88,9 +82,7 @@ def verwijderLijn(self):
             f.write(line)
     f.close()
 
-def overhoren():
-    global goedCounter
-    global foutCounter
+def overhoren(goedCounter, foutCounter):
     print("\nOver welke lijst wil je overhoord worden?")
     with open(lijsten, "r+") as file:
         alleLijsten = file.read().split("\n")
@@ -129,35 +121,35 @@ def overhoren():
             return
 
 def sluitProgramma():
-    global program
     print("\nWelterusten...")
     time.sleep(1.8)
     clear()
     program = False
+    return program
 
 def main():
-    global program
     program = True
+
     while program:
         kiesLijst()
 
         userInput = input(": ")
 
         if userInput == "1":
-            nieuweLijst()
+            nieuweLijst("", "")
 
         elif userInput == "2":
-            verwijderLijst()
+            verwijderLijst("")
 
         elif userInput == "3":
-            overhoren()
+            overhoren(0, 0)
 
-        elif userInput == str("4") or userInput.upper() == "QQ":
-            sluitProgramma()
+        elif userInput == "4" or userInput.upper() == "QQ":
+             program = sluitProgramma()
 
         else:
             print("\nWat denkt jij dat je doet, gekkerd?!")
             return
 
-while program:
-    main()
+
+main()
