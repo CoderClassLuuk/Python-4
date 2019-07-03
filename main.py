@@ -5,13 +5,13 @@ import time     #
 import random   #
 #################
 
-ex = ".txt"
-lijsten = "lijsten" + ex
+EX = ".txt"
+LIJSTEN = "lijsten" + EX
 dicct = {}
-with open(lijsten, "w") as file:
+with open(LIJSTEN, "w") as file:
     pass
-goedAntwoorden = ["Goedzo!", "Dubieus pronkstuk, maar vooruit.", "YOOOO LETS GO!", "Correct, mijnheer.", ":)", "Nice", "Epische zet, mijn gepigmenteerde medemens.", "Correct & cool.", "Ga zo door, makker!", "Top hoor, kameraad!", "G O E D", "Lekker sahbe", "Hard bro"]
-foutAntwoorden = ["F", "Incorrect, mijnheer.", "Nop", "Nope", "Fout", "Volgende keer beter", "Potjandriedubbeltjes, je antwoord klopt niet!", "NOOOOOB!!!", "XD je bent echt slecht", "A dombo", "Ding-dang-dong, your answer is wrong!", "GAME OVER", "FOUUUTTTTT"]
+GOEDANTWOORDEN = ["Goedzo!", "Dubieus pronkstuk, maar vooruit.", "YOOOO LETS GO!", "Correct, mijnheer.", ":)", "Nice", "Epische zet, mijn gepigmenteerde medemens.", "Correct & cool.", "Ga zo door, makker!", "Top hoor, kameraad!", "G O E D", "Lekker sahbe", "Hard bro"]
+FOUTANTWOORDEN = ["F", "Incorrect, mijnheer.", "Nop", "Nope", "Fout", "Volgende keer beter", "Potjandriedubbeltjes, je antwoord klopt niet!", "NOOOOOB!!!", "XD je bent echt slecht", "A dombo", "Ding-dang-dong, your answer is wrong!", "GAME OVER", "FOUUUTTTTT"]
 
 def clear():
     os.system("cls" if os.name == "nt" else "clear")
@@ -20,15 +20,14 @@ def kiesLijst():
     print("\n1 = nieuwe lijst")
     print("2 = verwijder lijst")
     print("3 = overhoren")
-    print("4 = sluit programma")
+    print("QQ = sluit programma")
     print("\nWil je terug gaan, gebruik dan altijd QQ.\n")
 
 def nieuweLijst():
     time.sleep(0.5)
-    newListInput = input("\nGeef je nieuwe lijst een naam: ")
-    lijstNaam = newListInput + ex
-    # fname = "Users\LuukN\Desktop\CoderClassRobotica\Python\Python-4" + "\\" + lijstNaam
-    with open(lijsten, "a+") as file:
+    newListInput = input("\nGeef je nieuwe lijst een naam (zonder extensie): ")
+    lijstNaam = newListInput + EX
+    with open(LIJSTEN, "a+") as file:
         file.write(lijstNaam + "\n")
         file.close()
     print("\nNieuwe lijst " + lijstNaam + " succesvol gemaakt.\n")
@@ -45,7 +44,7 @@ def stopInLijst():
     lijstKey = input(": ")
     lijstValue = input(": ")
     while not (lijstKey.upper() == "QQ" or lijstValue.upper() == "QQ"):
-        with open(lijstNaam, "w+") as file:
+        with open(lijstNaam, "a+") as file:
             file.write(lijstKey + ":" + lijstValue + "\n")
             file.close()
         dicct[lijstKey] = lijstValue
@@ -55,17 +54,16 @@ def stopInLijst():
         lijstKey = input(": ")
         lijstValue = input(": ")
     clear()
-    print(lijsten)
     time.sleep(2)
 
-def verwijderLijst(verwijderInput):
+def verwijderLijst():
     time.sleep(0.5)
-    with open(lijsten, "r+") as file:
+    with open(LIJSTEN, "r+") as file:
         print("\nWelke lijst wil je verwijderen?")
         alleLijsten = file.read().split("\n")
         del alleLijsten[-1]
         print(alleLijsten)
-        verwijderInput = input("Typ de naam van je lijst : ")
+        verwijderInput = input("Typ de naam van je lijst (met extensie): ")
         if verwijderInput in alleLijsten:
             print("\nLijst " + verwijderInput + " succesvol verwijderd.")
             os.remove(verwijderInput)
@@ -79,10 +77,10 @@ def verwijderLijst(verwijderInput):
     clear()
 
 def verwijderLijn(verwijderInput):
-    f = open(lijsten, "r")
+    f = open(LIJSTEN, "r")
     lines = f.readlines()
     f.close()
-    f = open(lijsten, "w")
+    f = open(LIJSTEN, "w")
     for line in lines:
         if line != verwijderInput + "\n":
             f.write(line)
@@ -90,7 +88,7 @@ def verwijderLijn(verwijderInput):
 
 def welkeLijst():
     print("\nOver welke lijst wil je overhoord worden?")
-    with open(lijsten, "r+") as file:
+    with open(LIJSTEN, "r+") as file:
         alleLijsten = file.read().split("\n")
         del alleLijsten[-1]
         file.close()
@@ -99,7 +97,7 @@ def welkeLijst():
 
 def overhoren(goedCounter, foutCounter):
     alleLijsten = welkeLijst()
-    overhoorInput = input("Typ de naam van je lijst : ")
+    overhoorInput = input("Typ de naam van je lijst (met extensie): ")
     while not overhoorInput.upper() == "QQ":
         if overhoorInput in alleLijsten:
             with open(overhoorInput, "r+") as file:
@@ -109,19 +107,17 @@ def overhoren(goedCounter, foutCounter):
                 for i in overhoorLijst:
                     splitOnColon.append(i.split(":"))
                 randomItem = random.randint(0, len(splitOnColon) - 1)
-                overhoor1 = splitOnColon[randomItem][0]
-                overhoor2 = splitOnColon[randomItem][1]
                 file.close()
-            overhoorQuestionInput = input(overhoor1 + " : ")
+            overhoorQuestionInput = input(splitOnColon[randomItem][0] + " : ")
             if overhoorQuestionInput.upper() == "QQ":
                 return
-            if overhoorQuestionInput.upper() == overhoor2.upper():
-                print(random.choice(goedAntwoorden))
+            if overhoorQuestionInput.upper() == splitOnColon[randomItem][1].upper():
+                print(random.choice(GOEDANTWOORDEN))
                 goedCounter = goedCounter + 1
                 print("Aantal goede antwoorden: " + str(goedCounter))
                 print("Aantal foute antwoorden: " + str(foutCounter))
             else:
-                print(random.choice(foutAntwoorden))
+                print(random.choice(FOUTANTWOORDEN))
                 foutCounter = foutCounter + 1
                 print("Aantal goede antwoorden: " + str(goedCounter))
                 print("Aantal foute antwoorden: " + str(foutCounter))
@@ -130,36 +126,19 @@ def overhoren(goedCounter, foutCounter):
             print("\nGebruik a.u.b een echte naam tho")
             return
 
-def sluitProgramma():
-    print("\nWelterusten...")
-    time.sleep(1.8)
-    clear()
-    program = False
-    return program
-
 def main():
-    program = True
-
-    while program:
-        kiesLijst()
-
-        userInput = input(": ")
-
+    kiesLijst()
+    userInput = input(": ")
+    while not userInput.upper() == "QQ":
         if userInput == "1":
             stopInLijst()
-
         elif userInput == "2":
-            verwijderLijst("")
-
+            verwijderLijst()
         elif userInput == "3":
             overhoren(0, 0)
-
-        elif userInput == "4" or userInput.upper() == "QQ":
-             program = sluitProgramma()
-
         else:
-            print("\nWat denkt jij dat je doet, gekkerd?!")
-            return
-
+            print("\nWat denk jij dat je doet, gekkerd?!")
+        kiesLijst()
+        userInput = input(": ")
 
 main()
