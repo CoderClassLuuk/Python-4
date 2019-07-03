@@ -7,7 +7,6 @@ import random   #
 
 EX = ".txt"
 LIJSTEN = "lijsten" + EX
-dicct = {}
 with open(LIJSTEN, "w") as file:
     pass
 GOEDANTWOORDEN = ["Goedzo!", "Dubieus pronkstuk, maar vooruit.", "YOOOO LETS GO!", "Correct, mijnheer.", ":)", "Nice", "Epische zet, mijn gepigmenteerde medemens.", "Correct & cool.", "Ga zo door, makker!", "Top hoor, kameraad!", "G O E D", "Lekker sahbe", "Hard bro"]
@@ -37,6 +36,7 @@ def nieuweLijst():
 
 def stopInLijst():
     lijstNaam = nieuweLijst()
+    dicct = {}
     print("Typ eerst een key, daarna een value. Het eerste woord zal je moeten beantwoorden met de tweede.\n")
     print('Als je klaar bent met woorden toevoegen aan je lijst, typ dan "QQ"\n')
     print("Bijvoorbeeld: eerst Fiets, dan Bicycle.\n")
@@ -75,6 +75,13 @@ def verwijderLijst():
         file.close()
     time.sleep(0.5)
     clear()
+
+# def leesLijsten():
+#     f = open(LIJSTEN, "r+")
+#     lijsten = f.read().split("\n")
+#     del lijsten[-1]
+#     print(lijsten)
+#     return lijsten
 
 def verwijderLijn(verwijderInput):
     f = open(LIJSTEN, "r")
@@ -125,6 +132,7 @@ def overhoren(goedCounter, foutCounter):
         else:
             print("\nGebruik a.u.b een echte naam tho")
             return
+
 
 def main():
     kiesLijst()
