@@ -23,34 +23,40 @@ def kiesLijst():
     print("4 = sluit programma")
     print("\nWil je terug gaan, gebruik dan altijd QQ.\n")
 
-def nieuweLijst(newListInput, lijstNaam):
+def nieuweLijst():
     time.sleep(0.5)
     newListInput = input("\nGeef je nieuwe lijst een naam: ")
     lijstNaam = newListInput + ex
+    # fname = "Users\LuukN\Desktop\CoderClassRobotica\Python\Python-4" + "\\" + lijstNaam
     with open(lijsten, "a+") as file:
         file.write(lijstNaam + "\n")
         file.close()
-    with open(lijstNaam, "w+") as file:
-        print("\nNieuwe lijst " + lijstNaam + " succesvol gemaakt.\n")
-        time.sleep(0.5)
-        clear()
-        print("Typ eerst een key, daarna een value. Het eerste woord zal je moeten beantwoorden met de tweede.\n")
-        print('Als je klaar bent met woorden toevoegen aan je lijst, typ dan "QQ"\n')
-        print("Bijvoorbeeld: eerst Fiets, dan Bicycle.\n")
+    print("\nNieuwe lijst " + lijstNaam + " succesvol gemaakt.\n")
+    time.sleep(0.5)
+    clear()
+    return lijstNaam
+
+def stopInLijst():
+    lijstNaam = nieuweLijst()
+    print("Typ eerst een key, daarna een value. Het eerste woord zal je moeten beantwoorden met de tweede.\n")
+    print('Als je klaar bent met woorden toevoegen aan je lijst, typ dan "QQ"\n')
+    print("Bijvoorbeeld: eerst Fiets, dan Bicycle.\n")
+    time.sleep(0.25)
+    lijstKey = input(": ")
+    lijstValue = input(": ")
+    while not (lijstKey.upper() == "QQ" or lijstValue.upper() == "QQ"):
+        with open(lijstNaam, "w+") as file:
+            file.write(lijstKey + ":" + lijstValue + "\n")
+            file.close()
+        dicct[lijstKey] = lijstValue
+        time.sleep(0.25)
+        print("Je hebt succesvol " + lijstKey + ":" + lijstValue + " in je lijst gezet.\n")
         time.sleep(0.25)
         lijstKey = input(": ")
         lijstValue = input(": ")
-        while not (lijstKey.upper() == "QQ" or lijstValue.upper() == "QQ"):
-            file.write(lijstKey + ":" + lijstValue + "\n")
-            dicct[lijstKey] = lijstValue
-            time.sleep(0.25)
-            print("Je hebt succesvol " + lijstKey + ":" + lijstValue + " in je lijst gezet.\n")
-            time.sleep(0.25)
-            lijstKey = input(": ")
-            lijstValue = input(": ")
-        clear()
-        print(lijsten)
-        time.sleep(2)
+    clear()
+    print(lijsten)
+    time.sleep(2)
 
 def verwijderLijst(verwijderInput):
     time.sleep(0.5)
@@ -82,13 +88,17 @@ def verwijderLijn(verwijderInput):
             f.write(line)
     f.close()
 
-def overhoren(goedCounter, foutCounter):
+def welkeLijst():
     print("\nOver welke lijst wil je overhoord worden?")
     with open(lijsten, "r+") as file:
         alleLijsten = file.read().split("\n")
         del alleLijsten[-1]
         file.close()
     print(alleLijsten)
+    return alleLijsten
+
+def overhoren(goedCounter, foutCounter):
+    alleLijsten = welkeLijst()
     overhoorInput = input("Typ de naam van je lijst : ")
     while not overhoorInput.upper() == "QQ":
         if overhoorInput in alleLijsten:
@@ -136,7 +146,7 @@ def main():
         userInput = input(": ")
 
         if userInput == "1":
-            nieuweLijst("", "")
+            stopInLijst()
 
         elif userInput == "2":
             verwijderLijst("")
