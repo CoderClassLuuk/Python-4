@@ -148,6 +148,8 @@ def weergeefWoorden():
         with open(newGekozenLijst, "r") as file:
             print("\nDe woorden in " + newGekozenLijst + " zijn:\n")
             print(file.read())
+    else:
+        print("\n" + newGekozenLijst + " is niet een geldige lijst.")
     return
 
 def main():
