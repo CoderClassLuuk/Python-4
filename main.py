@@ -1,32 +1,30 @@
 #################
 #Import modules #
-import os       #
-import time     #
+import os.path  #
 import random   #
 #################
 
-EX = ".txt"
-LIJSTEN = "lijsten" + EX
-GOEDANTWOORDEN = ["Goedzo!", "Dubieus pronkstuk, maar vooruit.", "YOOOO LETS GO!", "Correct, mijnheer.", ":)", "Nice", "Epische zet, mijn gepigmenteerde medemens.", "Correct & cool.", "Ga zo door, makker!", "Top hoor, kameraad!", "G O E D", "Lekker sahbe", "Hard bro"]
-FOUTANTWOORDEN = ["F", "Incorrect, mijnheer.", "Nop", "Nope", "Fout", "Volgende keer beter", "Potjandriedubbeltjes, je antwoord klopt niet!", "NOOOOOB!!!", "XD je bent echt slecht", "A dombo", "Ding-dang-dong, your answer is wrong!", "GAME OVER", "FOUUUTTTTT"]
-
-def clear():
-    os.system("cls" if os.name == "nt" else "clear")
+EX = ".wrd"
+GOEDANTWOORDEN = ["Goedzo!", "Dubieus pronkstuk, maar vooruit.", "YOOOO LETS GO!", "Correct, mijnheer.", ":)", "Nice", "Correct & cool.", "Ga zo door, makker!", "Top hoor, kameraad!", "G O E D", "Lekker sahbe", "Hard bro"]
+FOUTANTWOORDEN = ["F", "Incorrect, mijnheer.", "Nop", "Nope", "Fout", "Volgende keer beter", "Potjandriedubbeltjes, je antwoord klopt niet!", "NOOOOOB!!!", "XD je bent echt slecht", "A dombo", "Ding-dang-dong, your answer is wrong!", "FOUUUTTTTT"]
 
 def kiesLijst():
-    print("\n1 = nieuwe lijst")
+    print("\n1 = nieuwe lijst / aan lijst toevoegen")
     print("2 = verwijder lijst")
-    print("3 = overhoren")
+    print("3 = verwijder woorden uit lijst")
+    print("4 = overhoren")
     print("QQ = sluit programma")
     print("\nWil je terug gaan, gebruik dan altijd QQ.\n")
 
 def nieuweLijst():
-    newListInput = input("\nGeef je nieuwe lijst een naam (zonder extensie): ")
+    print("\nBestaande lijsten:")
+    print(getLijsten())
+    newListInput = input("\nGeef je nieuwe lijst een naam (zonder extensie) of typ de naam van de lijst waaraan je wilt toevoegen: ")
     lijstNaam = newListInput + EX
-    with open(LIJSTEN, "a+") as file:
-        file.write(lijstNaam + "\n")
-    print("\nNieuwe lijst " + lijstNaam + " succesvol gemaakt.\n")
-    clear()
+    if os.path.exists(lijstNaam):
+        print("\nEr wordt nu aan " + lijstNaam + " toegevoegd.")
+    else:
+        print("\nNieuwe lijst " + lijstNaam + " succesvol aangemaakt.")
     stopInLijst(lijstNaam)
 
 def stopInLijst(lijstNaam):
@@ -43,44 +41,66 @@ def stopInLijst(lijstNaam):
         print("Je hebt succesvol " + lijstKey + ":" + lijstValue + " in je lijst gezet.\n")
         lijstKey = input(": ")
         lijstValue = input(": ")
-    clear()
+
+def getLijsten():
+    files = os.listdir(os.getcwd())
+    files_wrd = [i for i in files if i.endswith('.wrd')]
+    return files_wrd
 
 def verwijderLijst():
-    with open(LIJSTEN, "w+") as file:
-        print("\nWelke lijst wil je verwijderen?")
-        alleLijsten = file.read().split("\n")
-        del alleLijsten[-1]
-        print(alleLijsten)
-        verwijderInput = input("Typ de naam van je lijst (met extensie): ")
-        if verwijderInput in alleLijsten:
-            print("\nLijst " + verwijderInput + " succesvol verwijderd.")
-            os.remove(verwijderInput)
-            verwijderLijn(verwijderInput, file)
+    print("\nWelke lijst wil je verwijderen?")
+    print(getLijsten())
+    alleLijsten = getLijsten()
+    verwijderInput = input("Typ de naam van je lijst (zonder extensie): ")
+    newVerwijderInput = verwijderInput + EX
+    if (newVerwijderInput in alleLijsten):
+        print("\nLijst " + newVerwijderInput + " wordt verwijderd.")
+        os.remove(newVerwijderInput)
+    else:
+        print("\n" + newVerwijderInput + " is niet een bestaande lijst.")
+
+def welkeLijstWoorden():
+    print("\nUit welke lijst wil je woorden verwijderen?")
+    print(getLijsten())
+    alleLijsten = getLijsten()
+    woordLijstInput = input("\nTyp de naam van je lijst (zonder extensie): ")
+    newWoordLijstInput = woordLijstInput + EX
+    if (newWoordLijstInput in alleLijsten):
+        print("\nDeze woorden zijn in de lijst " + newWoordLijstInput + ":\n")
+        with open (newWoordLijstInput, "r") as file:
+            print(file.read())
+        lijnInput = input("\nTyp de lijn die je uit het bestand wilt halen: ")
+        if (lijnInput.upper() != "QQ"):
+            woordenVerwijderen(newWoordLijstInput, lijnInput)
         else:
-            print("\nGebruik a.u.b een echte naam tho")
-    clear()
+            return
+    else:
+        print("\nDe gegeven lijst naam is niet geldig.")
+        return
 
-def verwijderLijn(verwijderInput, f):
-    lines = f.readlines()
-    for line in lines:
-        if line != verwijderInput + "\n":
-            f.write(line)
+def woordenVerwijderen(newWoordLijstInput, lijnInput):
+    with open (newWoordLijstInput, "r+") as file:
+        lines = file.readlines()
+        file.truncate(0)
+        for line in lines:
+            if line.strip("\n") != lijnInput:
+                file.write(line)
+    print("\nGeselecteerde lijn succesvol uit het bestaand gehaald.")
 
-def welkeLijst():
+def welkeLijstOverhoren():
     print("\nOver welke lijst wil je overhoord worden?")
-    with open(LIJSTEN, "r+") as file:
-        alleLijsten = file.read().split("\n")
-        del alleLijsten[-1]
-    print(alleLijsten)
-    overhoorInput = input("Typ de naam van je lijst (met extensie): ")
-    overhoren(alleLijsten, overhoorInput)
+    print(getLijsten())
+    overhoorInput = input("Typ de naam van je lijst (zonder extensie): ")
+    newOverhoorInput = overhoorInput + EX
+    alleLijsten = getLijsten()
+    overhoren(alleLijsten, newOverhoorInput)
 
-def overhoren(alleLijsten, overhoorInput):
+def overhoren(alleLijsten, newOverhoorInput):
     goedCounter = 0
     foutCounter = 0
-    while not overhoorInput.upper() == "QQ":
-        if overhoorInput in alleLijsten:
-            with open(overhoorInput, "r+") as file:
+    while not newOverhoorInput.upper() == "QQ":
+        if newOverhoorInput in alleLijsten:
+            with open(newOverhoorInput, "r+") as file:
                 overhoorLijst = file.read().split("\n")
                 del overhoorLijst[-1]
                 splitOnColon = []
@@ -103,9 +123,8 @@ def overhoren(alleLijsten, overhoorInput):
                 print("Aantal foute antwoorden: " + str(foutCounter) + "\n")
 
         else:
-            print("\nGebruik a.u.b een echte naam tho")
+            print("\nDe gegeven lijst naam is niet geldig.")
             return
-
 
 def main():
     kiesLijst()
@@ -116,9 +135,11 @@ def main():
         elif userInput == "2":
             verwijderLijst()
         elif userInput == "3":
-            welkeLijst()
+            welkeLijstWoorden()
+        elif userInput == "4":
+            welkeLijstOverhoren()
         else:
-            print("\nWat denk jij dat je doet, gekkerd?!")
+            print("\nDe gegeven input is niet geldig.")
         kiesLijst()
         userInput = input(": ")
 
