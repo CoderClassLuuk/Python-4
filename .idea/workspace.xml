@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="69f5798e-fb7e-4805-8e04-90a8d22f9d59" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lijsten.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -52,12 +50,12 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="py" value="4384" />
+          <entry key="py" value="5112" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="4384" />
+          <entry key="Python" value="5112" />
         </counts>
       </usages-collector>
     </session>
@@ -68,11 +66,12 @@
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="141">
-              <caret line="12" column="32" selection-start-line="12" selection-start-column="32" selection-end-line="12" selection-end-column="32" />
+              <caret line="56" column="30" selection-start-line="56" selection-start-column="30" selection-end-line="56" selection-end-column="30" />
               <folding>
                 <element signature="e#36#53#0" expanded="true" />
-                <marker date="1593505290472" expanded="true" signature="1297:1299" ph="..." />
-                <marker date="1593505290472" expanded="true" signature="3554:3730" ph="..." />
+                <marker date="1593507710126" expanded="true" signature="1395:1397" ph="..." />
+                <marker date="1593507710126" expanded="true" signature="4023:4199" ph="..." />
+                <marker date="1593507710126" expanded="true" signature="6363:6364" ph="..." />
               </folding>
             </state>
           </provider>
@@ -93,7 +92,6 @@
       <find>with open(lijst</find>
       <find>with open(lijsten</find>
       <find>verwijderInput</find>
-      <find>alleLijsten</find>
       <find>as</find>
       <find>EX</find>
       <find>return</find>
@@ -105,6 +103,7 @@
       <find>verwijderLijn</find>
       <find>getlijsten</find>
       <find>clear</find>
+      <find>alleLijsten</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -118,8 +117,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="107" />
-    <option name="y" value="-19" />
+    <option name="x" value="-2" />
+    <option name="y" value="-9" />
     <option name="width" value="1933" />
     <option name="height" value="1093" />
   </component>
@@ -246,11 +245,12 @@
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="141">
-          <caret line="12" column="32" selection-start-line="12" selection-start-column="32" selection-end-line="12" selection-end-column="32" />
+          <caret line="56" column="30" selection-start-line="56" selection-start-column="30" selection-end-line="56" selection-end-column="30" />
           <folding>
             <element signature="e#36#53#0" expanded="true" />
-            <marker date="1593505290472" expanded="true" signature="1297:1299" ph="..." />
-            <marker date="1593505290472" expanded="true" signature="3554:3730" ph="..." />
+            <marker date="1593507710126" expanded="true" signature="1395:1397" ph="..." />
+            <marker date="1593507710126" expanded="true" signature="4023:4199" ph="..." />
+            <marker date="1593507710126" expanded="true" signature="6363:6364" ph="..." />
           </folding>
         </state>
       </provider>

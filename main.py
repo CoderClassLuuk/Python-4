@@ -13,6 +13,7 @@ def kiesLijst():
     print("2 = verwijder lijst")
     print("3 = verwijder woorden uit lijst")
     print("4 = overhoren")
+    print("5 = weergeef woorden in lijst")
     print("QQ = sluit programma")
     print("\nWil je terug gaan, gebruik dan altijd QQ.\n")
 
@@ -23,8 +24,10 @@ def nieuweLijst():
     lijstNaam = newListInput + EX
     if os.path.exists(lijstNaam):
         print("\nEr wordt nu aan " + lijstNaam + " toegevoegd.")
-    else:
+    elif lijstNaam.upper() != "QQ.WRD":
         print("\nNieuwe lijst " + lijstNaam + " succesvol aangemaakt.")
+    else:
+        return
     stopInLijst(lijstNaam)
 
 def stopInLijst(lijstNaam):
@@ -51,7 +54,7 @@ def verwijderLijst():
     print("\nWelke lijst wil je verwijderen?")
     print(getLijsten())
     alleLijsten = getLijsten()
-    verwijderInput = input("Typ de naam van je lijst (zonder extensie): ")
+    verwijderInput = input("\nTyp de naam van je lijst (zonder extensie): ")
     newVerwijderInput = verwijderInput + EX
     if (newVerwijderInput in alleLijsten):
         print("\nLijst " + newVerwijderInput + " wordt verwijderd.")
@@ -65,15 +68,24 @@ def welkeLijstWoorden():
     alleLijsten = getLijsten()
     woordLijstInput = input("\nTyp de naam van je lijst (zonder extensie): ")
     newWoordLijstInput = woordLijstInput + EX
+    count = 0
     if (newWoordLijstInput in alleLijsten):
-        print("\nDeze woorden zijn in de lijst " + newWoordLijstInput + ":\n")
-        with open (newWoordLijstInput, "r") as file:
-            print(file.read())
-        lijnInput = input("\nTyp de lijn die je uit het bestand wilt halen: ")
-        if (lijnInput.upper() != "QQ"):
-            woordenVerwijderen(newWoordLijstInput, lijnInput)
-        else:
+        with open(newWoordLijstInput, 'r') as file:
+            for line in file:
+                count += 1
+        file.close()
+        if count == 0 or 1:
+            print("\nEr kunnen geen woorden verwijderd worden uit een lijst met nul of maar één paar woorden.")
             return
+        else:
+            print("\nDeze woorden zijn in de lijst " + newWoordLijstInput + ":\n")
+            with open (newWoordLijstInput, "r") as file:
+                print(file.read())
+            lijnInput = input("\nTyp de lijn die je uit het bestand wilt halen: ")
+            if (lijnInput.upper() != "QQ"):
+                woordenVerwijderen(newWoordLijstInput, lijnInput)
+            else:
+                return
     else:
         print("\nDe gegeven lijst naam is niet geldig.")
         return
@@ -81,7 +93,8 @@ def welkeLijstWoorden():
 def woordenVerwijderen(newWoordLijstInput, lijnInput):
     with open (newWoordLijstInput, "r+") as file:
         lines = file.readlines()
-        file.truncate(0)
+        file.seek(0)
+        file.truncate()
         for line in lines:
             if line.strip("\n") != lijnInput:
                 file.write(line)
@@ -126,6 +139,17 @@ def overhoren(alleLijsten, newOverhoorInput):
             print("\nDe gegeven lijst naam is niet geldig.")
             return
 
+def weergeefWoorden():
+    print(getLijsten())
+    gekozenLijst = input("\nVan welke lijst wil je de woorden zien? (zonder extensie): ")
+    newGekozenLijst = gekozenLijst + EX
+    alleLijsten = getLijsten()
+    if (newGekozenLijst in alleLijsten):
+        with open(newGekozenLijst, "r") as file:
+            print("\nDe woorden in " + newGekozenLijst + " zijn:\n")
+            print(file.read())
+    return
+
 def main():
     kiesLijst()
     userInput = input(": ")
@@ -138,6 +162,8 @@ def main():
             welkeLijstWoorden()
         elif userInput == "4":
             welkeLijstOverhoren()
+        elif userInput == "5":
+            weergeefWoorden()
         else:
             print("\nDe gegeven input is niet geldig.")
         kiesLijst()
